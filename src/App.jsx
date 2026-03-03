@@ -4,12 +4,26 @@ import { loadTrials } from './utils/dataLoader';
 import defenseImg from './assets/images/defense.png';
 import prosecutionImg from './assets/images/prosecution.png';
 import courtroomImg from './assets/images/courtroom.png';
+import judgeImg from './assets/images/judge.png';
+import waiLogo from './assets/images/wai.png';
 
 // Placeholder for other roles or default
 const AVATARS = {
   defense: defenseImg,
   prosecution: prosecutionImg,
-  // judge: ... (no image provided, maybe hide or use a placeholder if needed, but for now we only have 2 images)
+  judge: judgeImg
+};
+
+// Helper: convert **text** markdown bold to <strong> elements
+const renderBoldText = (text) => {
+  if (!text) return text;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
 };
 
 function App() {
@@ -61,29 +75,36 @@ function App() {
   if (!selectedTrial) return <div className="loading">Loading or No Data...</div>;
 
   // Determine which avatar to show
-  // If role is defense, show defense. If prosecution, show prosecution.
-  // If judge, maybe show nothing or a generic label?
-  // The image shows avatars overlaid on the courtroom.
   const activeRole = currentStep?.role;
   const showDefense = activeRole === 'defense';
   const showProsecution = activeRole === 'prosecution';
+  const showJudge = activeRole === 'judge';
 
   return (
     <div className="App">
       <div className="trial-selector">
-        <select
-          value={selectedTrialId}
-          onChange={(e) => {
-            setSelectedTrialId(e.target.value);
-            setCurrentTime(1);
-          }}
-        >
-          {trials.map(t => (
-            <option key={t.trial_id} value={t.trial_id}>
-              {t.trial_id}
-            </option>
-          ))}
-        </select>
+        <img src={waiLogo} alt="WAI Logo" className="wai-logo" />
+        <span className="header-title">Bailiff</span>
+        <span className="cue-label">
+          {selectedTrial
+            ? `${selectedTrial.cue_name}: ${selectedTrial.cue_value} (${selectedTrial.cue_condition})`
+            : ''}
+        </span>
+        <div className="custom-select">
+          <select
+            value={selectedTrialId}
+            onChange={(e) => {
+              setSelectedTrialId(e.target.value);
+              setCurrentTime(1);
+            }}
+          >
+            {trials.map(t => (
+              <option key={t.trial_id} value={t.trial_id}>
+                {t.trial_id}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="stage" style={{ backgroundImage: `url(${courtroomImg})` }}>
@@ -93,19 +114,21 @@ function App() {
         {showProsecution && (
           <img src={prosecutionImg} alt="Prosecution" className="avatar prosecution-avatar speaking" />
         )}
-
-        {/* If it's a judge or other, maybe we just don't show an avatar but still show text */}
+        {showJudge && (
+          <img src={judgeImg} alt="Judge" className="avatar judge-avatar speaking" />
+        )}
 
         <div className="dialogue-box">
           <div className="role-label">{activeRole ? activeRole.toUpperCase() : 'UNKNOWN'}</div>
           <div className="dialogue-text">
-            {currentStep ? currentStep.text : "..."}
+            {currentStep ? renderBoldText(currentStep.text) : "..."}
           </div>
         </div>
       </div>
 
       <div className="controls">
         <button onClick={handleBack}>Back</button>
+        <div className="time-display">{currentTime}/{maxTime}</div>
         <input
           type="range"
           min="1"
@@ -115,7 +138,6 @@ function App() {
           onChange={handleScrubberChange}
           className="scrubber"
         />
-        <div className="time-display">{currentTime}/{maxTime}</div>
         <button onClick={handleNext}>Next</button>
       </div>
     </div>

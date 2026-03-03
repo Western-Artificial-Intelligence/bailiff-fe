@@ -1,18 +1,112 @@
+/* ── Dark Blue Palette ───────────────────────────── */
+:root {
+  --bg-primary: #0a1628;
+  --bg-secondary: #132238;
+  --bg-accent: #1e3a5f;
+  --highlight: #2e6bb5;
+  --highlight-glow: rgba(46, 107, 181, 0.45);
+  --text-primary: #e0e8f0;
+  --text-muted: #8aa3bf;
+  --border-subtle: rgba(46, 107, 181, 0.25);
+}
+
+/* ── Root App ────────────────────────────────────── */
 .App {
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f0f0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* ── Header / Trial Selector ─────────────────────── */
 .trial-selector {
-  padding: 10px;
-  background-color: #333;
-  color: white;
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  background: linear-gradient(180deg, #101d32 0%, var(--bg-primary) 100%);
+  border-bottom: 1px solid var(--border-subtle);
+  gap: 16px;
 }
 
+.wai-logo {
+  height: 40px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  margin-right: auto;
+}
+
+.cue-label {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95em;
+  margin-right: 12px;
+  white-space: nowrap;
+}
+
+/* ── Custom Select ───────────────────────────────── */
+.custom-select {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+}
+
+.custom-select select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px 40px 10px 16px;
+  font-size: 0.95em;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  min-width: 200px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.custom-select select:hover {
+  border-color: var(--highlight);
+}
+
+.custom-select select:focus {
+  border-color: var(--highlight);
+  box-shadow: 0 0 0 3px var(--highlight-glow);
+}
+
+.custom-select select option {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* Chevron arrow */
+.custom-select::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--text-muted);
+  pointer-events: none;
+}
+
+/* ── Stage ───────────────────────────────────────── */
 .stage {
   position: relative;
   width: 100%;
@@ -24,19 +118,17 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  /* Align content to bottom */
   min-height: 600px;
-  /* Ensure enough height */
 }
 
+/* ── Avatars ─────────────────────────────────────── */
 .avatar {
   position: absolute;
   bottom: 150px;
-  /* Above the text box */
   width: 300px;
-  /* Adjust size as needed */
   height: auto;
   transition: opacity 0.3s ease;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
 }
 
 .defense-avatar {
@@ -47,75 +139,151 @@
   right: 10%;
 }
 
+.judge-avatar {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 520px;
+  bottom: 33vh;
+}
+
+/* ── Dialogue Box ────────────────────────────────── */
 .dialogue-box {
   width: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
+  background: linear-gradient(180deg, rgba(10, 22, 40, 0.92) 0%, rgba(10, 22, 40, 0.98) 100%);
+  color: var(--text-primary);
   padding: 20px 40px;
   text-align: left;
   min-height: 150px;
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .role-label {
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #ddd;
+  color: var(--highlight);
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .dialogue-text {
   font-size: 1.2em;
   line-height: 1.5;
   white-space: pre-wrap;
-  /* Preserve whitespace */
+  color: var(--text-primary);
 }
 
+/* ── Controls Bar ────────────────────────────────── */
 .controls {
-  padding: 20px;
-  background-color: white;
+  padding: 16px 24px;
+  background: linear-gradient(0deg, #0d1a2e 0%, var(--bg-secondary) 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  gap: 16px;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .controls button {
-  padding: 10px 20px;
-  font-size: 1.2em;
+  padding: 10px 24px;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  background-color: #eee;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background-color: var(--bg-accent);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
 }
 
 .controls button:hover {
-  background-color: #ddd;
+  background-color: var(--highlight);
+  box-shadow: 0 0 12px var(--highlight-glow);
 }
 
+.controls button:active {
+  transform: scale(0.97);
+}
+
+/* ── Custom Range Slider ─────────────────────────── */
 .scrubber {
   flex-grow: 1;
   cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: var(--bg-accent);
+  border-radius: 3px;
+  outline: none;
+  transition: background 0.2s;
 }
 
+.scrubber:hover {
+  background: #244a75;
+}
+
+/* Webkit thumb */
+.scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--highlight);
+  border: 2px solid var(--text-primary);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--highlight-glow);
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.scrubber::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 16px var(--highlight-glow);
+  transform: scale(1.15);
+}
+
+/* Firefox thumb */
+.scrubber::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--highlight);
+  border: 2px solid var(--text-primary);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--highlight-glow);
+}
+
+.scrubber::-moz-range-track {
+  background: var(--bg-accent);
+  height: 6px;
+  border-radius: 3px;
+  border: none;
+}
+
+/* ── Time Display ────────────────────────────────── */
 .time-display {
-  font-family: monospace;
-  font-size: 1.2em;
-  width: 60px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 1em;
+  width: 70px;
+  text-align: center;
+  color: var(--text-muted);
 }
 
+/* ── Loading Screen ──────────────────────────────── */
 .loading {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   font-size: 2em;
+  background-color: var(--bg-primary);
+  color: var(--text-muted);
 }
 
+/* ── Speaking Animation ──────────────────────────── */
 .speaking {
   animation: speak-bounce 1s ease-in-out infinite;
 }
@@ -131,5 +299,24 @@
 
   100% {
     transform: translateY(0);
+  }
+}
+
+/* Judge needs combined transform (translateX + bounce) */
+.judge-avatar.speaking {
+  animation: judge-speak-bounce 1s ease-in-out infinite;
+}
+
+@keyframes judge-speak-bounce {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(0);
   }
 }
