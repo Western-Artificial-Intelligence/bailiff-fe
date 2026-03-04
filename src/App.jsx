@@ -84,10 +84,10 @@ function App() {
     <div className="App">
       <div className="trial-selector">
         <img src={waiLogo} alt="WAI Logo" className="wai-logo" />
-        <span className="header-title">Bailiff</span>
+        <span className="header-title">B.A.I.L.I.F.F. Demonstration</span>
         <span className="cue-label">
           {selectedTrial
-            ? `${selectedTrial.cue_name}: ${selectedTrial.cue_value} (${selectedTrial.cue_condition})`
+            ? `${selectedTrial.cue ? (selectedTrial.cue.charAt(0).toUpperCase() + selectedTrial.cue.slice(1)) : 'Unknown Cue'}: ${selectedTrial.cue_value} (${selectedTrial.cue_condition})`
             : ''}
         </span>
         <div className="custom-select">
