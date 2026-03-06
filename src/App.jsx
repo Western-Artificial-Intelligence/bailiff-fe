@@ -8,11 +8,11 @@ import judgeImg from './assets/images/judge.png';
 import waiLogo from './assets/images/wai.png';
 
 // Placeholder for other roles or default
-const AVATARS = {
-  defense: defenseImg,
-  prosecution: prosecutionImg,
-  judge: judgeImg
-};
+// const AVATARS = {
+//   defense: defenseImg,
+//   prosecution: prosecutionImg,
+//   judge: judgeImg
+// };
 
 // Helper: convert **text** markdown bold to <strong> elements
 const renderBoldText = (text) => {
