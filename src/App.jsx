@@ -2,10 +2,27 @@ import React, { useState, useEffect, useMemo } from 'react';
 import './App.css';
 import { loadTrials } from './utils/dataLoader';
 import defenseImg from './assets/images/defense.png';
+import defense2Img from './assets/images/Defense 2.png';
 import prosecutionImg from './assets/images/prosecution.png';
+import prosecution2Img from './assets/images/prosecution2.png';
 import courtroomImg from './assets/images/courtroom.png';
 import judgeImg from './assets/images/judge.png';
+import judge2Img from './assets/images/judge2.png';
 import waiLogo from './assets/images/wai.png';
+
+// Character options per role
+const DEFENSE_CHARS = [
+  { id: 'clippy', img: defenseImg, label: 'Clippy' },
+  { id: 'harvey', img: defense2Img, label: 'Harvey' },
+];
+const PROSECUTION_CHARS = [
+  { id: 'robot', img: prosecutionImg, label: 'Robot' },
+  { id: 'kent', img: prosecution2Img, label: 'Kent' },
+];
+const JUDGE_CHARS = [
+  { id: 'thinker', img: judge2Img, label: 'Thinker' },
+  { id: 'robo-judge', img: judgeImg, label: 'Robo Judge' },
+];
 
 // Helper: convert **text** markdown bold to <strong> elements
 const renderBoldText = (text) => {
@@ -23,6 +40,10 @@ function App() {
   const [trials, setTrials] = useState([]);
   const [selectedTrialId, setSelectedTrialId] = useState(null);
   const [currentTime, setCurrentTime] = useState(1);
+  const [defenseChar, setDefenseChar] = useState(0);
+  const [prosecutionChar, setProsecutionChar] = useState(0);
+  const [judgeChar, setJudgeChar] = useState(0);
+  const [showPanels, setShowPanels] = useState(true);
 
   useEffect(() => {
     loadTrials().then(loadedTrials => {
@@ -101,14 +122,67 @@ function App() {
       </div>
 
       <div className="stage" style={{ backgroundImage: `url(${courtroomImg})` }}>
+        {/* Toggle button for character panels */}
+        <button
+          className="char-panel-toggle"
+          onClick={() => setShowPanels(prev => !prev)}
+          title={showPanels ? 'Hide character selectors' : 'Show character selectors'}
+        >
+          {showPanels ? '−' : '+'}
+        </button>
+
+        {/* Character selection panels */}
+        {showPanels && (
+          <>
+            <div className="char-panel char-panel-defense">
+              {DEFENSE_CHARS.map((ch, i) => (
+                <button
+                  key={ch.id}
+                  className={`char-thumb${defenseChar === i ? ' active' : ''}`}
+                  onClick={() => setDefenseChar(i)}
+                  title={ch.label}
+                >
+                  <img src={ch.img} alt={ch.label} />
+                </button>
+              ))}
+            </div>
+
+            <div className="char-panel char-panel-judge">
+              {JUDGE_CHARS.map((ch, i) => (
+                <button
+                  key={ch.id}
+                  className={`char-thumb${judgeChar === i ? ' active' : ''}`}
+                  onClick={() => setJudgeChar(i)}
+                  title={ch.label}
+                >
+                  <img src={ch.img} alt={ch.label} />
+                </button>
+              ))}
+            </div>
+
+            <div className="char-panel char-panel-prosecution">
+              {PROSECUTION_CHARS.map((ch, i) => (
+                <button
+                  key={ch.id}
+                  className={`char-thumb${prosecutionChar === i ? ' active' : ''}`}
+                  onClick={() => setProsecutionChar(i)}
+                  title={ch.label}
+                >
+                  <img src={ch.img} alt={ch.label} />
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
         {showDefense && (
-          <img src={defenseImg} alt="Defense" className="avatar defense-avatar speaking" />
+          <img src={DEFENSE_CHARS[defenseChar].img} alt="Defense" className="avatar defense-avatar speaking" />
         )}
         {showProsecution && (
-          <img src={prosecutionImg} alt="Prosecution" className="avatar prosecution-avatar speaking" />
+          <img src={PROSECUTION_CHARS[prosecutionChar].img} alt="Prosecution" className="avatar prosecution-avatar speaking" />
         )}
         {showJudge && (
-          <img src={judgeImg} alt="Judge" className="avatar judge-avatar speaking" />
+          <img src={JUDGE_CHARS[judgeChar].img} alt="Judge" className="avatar judge-avatar speaking" />
         )}
 
         <div className="dialogue-box">
