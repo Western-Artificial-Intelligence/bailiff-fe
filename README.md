@@ -1,3 +1,6 @@
+# B.A.I.L.I.F.F. FE
+This is a clone from the WAI Repo (https://github.com/Western-Artificial-Intelligence/bailiff-fe) to provide access to Vercel hosting.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
